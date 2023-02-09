@@ -1,6 +1,6 @@
-import {AsyncMqttClient, connectAsync, IClientPublishOptions} from "async-mqtt";
+import { AsyncMqttClient, connectAsync, IClientPublishOptions } from "async-mqtt";
 
-type MQTTMessageHandler = (message: Buffer, topic: string, engine: MQTTEngine) => Promise<void>;
+type MQTTMessageHandler = (message: Buffer, topic: string, engine: MQTTEngine) => Promise<void> | void;
 
 export class MQTTEngine {
     private client: AsyncMqttClient;
@@ -13,11 +13,11 @@ export class MQTTEngine {
 
     static async getMQTTEngine(host: string, port?: number): Promise<MQTTEngine> {
         const client = await connectAsync(`mqtt://${host}`, {port});
-        console.debug('Connected to MQTT broker. Listening to messages...');
+        console.debug("Connected to MQTT broker. Listening to messages...");
 
         const object = new MQTTEngine(client);
 
-        client.on('message', object.onMessage.bind(object));
+        client.on("message", object.onMessage.bind(object));
         return object;
     }
 
@@ -38,12 +38,12 @@ export class MQTTEngine {
         }
     }
 
-    async registerAll(registerList: { topic: string, handler: MQTTMessageHandler }[]): Promise<void> {
+    async registerAll(registerList: {topic: string, handler: MQTTMessageHandler}[]): Promise<void> {
         await Promise.all(registerList.map(e => this.register(e.topic, e.handler)));
     }
 
     async redirect(topicIn: string, topicOut: string): Promise<void> {
-        await this.register(topicIn, message => this.publish(topicOut, message))
+        await this.register(topicIn, message => this.publish(topicOut, message));
     }
 
     async redirectAll(redirectList: {topicIn: string, topicOut: string}[]): Promise<void> {

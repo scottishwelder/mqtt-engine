@@ -1,16 +1,19 @@
 {
   "name": "mqtt-engine",
   "version": "1.0.0",
-  "description": "Small library to help writing MQTT-event-driven code",
+  "description": "A little library to write mqtt-event-driven programs",
   "main": "./build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "pack": "npm pack && mv mqtt-engine-1.0.0.tgz ../node_modules/"
+    "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["mqtt", "promise", "async"],
+  "author": "Scottish Welder <npm@scottishwelder.anonaddy.me>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scottishwelder/mqtt-engine.git"
+  },
   "devDependencies": {
     "@types/node": "^18.11.18",
     "typescript": "^4.9.4"
